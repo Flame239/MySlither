@@ -1,6 +1,5 @@
-package de.mat2095.my_slither;
+package com.flame239.slitherio;
 
-import static de.mat2095.my_slither.MySlitherModel.PI2;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,7 +21,7 @@ public abstract class Player {
         public final Boolean boost;
 
         public Wish(Double angle, Boolean boost) {
-            if (angle != null && (angle < 0 || angle >= PI2)) {
+            if (angle != null && (angle < 0 || angle >= MySlitherModel.PI2)) {
                 throw new IllegalArgumentException("angle not in range 0 to PI2");
             }
             this.angle = angle;

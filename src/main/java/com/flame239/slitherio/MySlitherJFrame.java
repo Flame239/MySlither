@@ -1,4 +1,4 @@
-package de.mat2095.my_slither;
+package com.flame239.slitherio;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

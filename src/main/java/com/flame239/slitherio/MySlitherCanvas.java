@@ -1,6 +1,5 @@
-package de.mat2095.my_slither;
+package com.flame239.slitherio;
 
-import static de.mat2095.my_slither.MySlitherModel.PI2;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -63,7 +62,7 @@ final class MySlitherCanvas extends JPanel {
         }
 
         private void readWang(MouseEvent e) {
-            wang = (Math.atan2((e.getY() - getHeight() / 2), (e.getX() - getWidth() / 2)) + PI2) % PI2;
+            wang = (Math.atan2((e.getY() - getHeight() / 2), (e.getX() - getWidth() / 2)) + MySlitherModel.PI2) % MySlitherModel.PI2;
         }
 
         @Override

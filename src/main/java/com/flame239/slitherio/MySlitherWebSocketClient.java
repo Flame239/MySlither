@@ -1,6 +1,5 @@
-package de.mat2095.my_slither;
+package com.flame239.slitherio;
 
-import static de.mat2095.my_slither.MySlitherModel.PI2;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +15,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.drafts.Draft_17;
+import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
 
 final class MySlitherWebSocketClient extends WebSocketClient {
@@ -42,14 +41,14 @@ final class MySlitherWebSocketClient extends WebSocketClient {
     }
 
     public MySlitherWebSocketClient(URI serverUri, MySlitherJFrame view) {
-        super(serverUri, new Draft_17(), HEADER);
+        super(serverUri, new Draft_6455(), HEADER);
         this.view = view;
     }
 
     public void sendData(Player.Wish wish) {
 
         if (wish.angle != null) {
-            angleToBeSent = (byte) (wish.angle * 251 / PI2);
+            angleToBeSent = (byte) (wish.angle * 251 / MySlitherModel.PI2);
         }
         if (angleToBeSent != lastAngleContent && System.currentTimeMillis() - lastAngleTime > 100) {
             lastAngleTime = System.currentTimeMillis();
@@ -263,34 +262,34 @@ final class MySlitherWebSocketClient extends WebSocketClient {
         double newSpeed = -1;
         if (data.length == 8) {
             newDir = cmd == 'e' ? 1 : 2;
-            newAng = data[5] * PI2 / 256;
-            newWang = data[6] * PI2 / 256;
+            newAng = data[5] * MySlitherModel.PI2 / 256;
+            newWang = data[6] * MySlitherModel.PI2 / 256;
             newSpeed = data[7] / 18.0;
         } else if (data.length == 7) {
             switch (cmd) {
                 case 'e':
-                    newAng = data[5] * PI2 / 256;
+                    newAng = data[5] * MySlitherModel.PI2 / 256;
                     newSpeed = data[6] / 18.0;
                     break;
                 case 'E':
                     newDir = 1;
-                    newWang = data[5] * PI2 / 256;
+                    newWang = data[5] * MySlitherModel.PI2 / 256;
                     newSpeed = data[6] / 18.0;
                     break;
                 case '4':
                     newDir = 2;
-                    newWang = data[5] * PI2 / 256;
+                    newWang = data[5] * MySlitherModel.PI2 / 256;
                     newSpeed = data[6] / 18.0;
                     break;
                 case '3':
                     newDir = 1;
-                    newAng = data[5] * PI2 / 256;
-                    newWang = data[6] * PI2 / 256;
+                    newAng = data[5] * MySlitherModel.PI2 / 256;
+                    newWang = data[6] * MySlitherModel.PI2 / 256;
                     break;
                 case '5':
                     newDir = 2;
-                    newAng = data[5] * PI2 / 256;
-                    newWang = data[6] * PI2 / 256;
+                    newAng = data[5] * MySlitherModel.PI2 / 256;
+                    newWang = data[6] * MySlitherModel.PI2 / 256;
                     break;
                 default:
                     view.log("update body-parts invalid cmd/length: " + cmd + ", " + data.length);
@@ -299,15 +298,15 @@ final class MySlitherWebSocketClient extends WebSocketClient {
         } else if (data.length == 6) {
             switch (cmd) {
                 case 'e':
-                    newAng = data[5] * PI2 / 256;
+                    newAng = data[5] * MySlitherModel.PI2 / 256;
                     break;
                 case 'E':
                     newDir = 1;
-                    newWang = data[5] * PI2 / 256;
+                    newWang = data[5] * MySlitherModel.PI2 / 256;
                     break;
                 case '4':
                     newDir = 2;
-                    newWang = data[5] * PI2 / 256;
+                    newWang = data[5] * MySlitherModel.PI2 / 256;
                     break;
                 case '3':
                     newSpeed = data[5] / 18.0;
@@ -524,8 +523,8 @@ final class MySlitherWebSocketClient extends WebSocketClient {
         if (data.length >= 31) {
             int id = (data[3] << 8) | (data[4]);
 
-            double ang = ((data[5] << 16) | (data[6] << 8) | data[7]) * PI2 / 16777215.0;
-            double wang = ((data[9] << 16) | (data[10] << 8) | data[11]) * PI2 / 16777215.0;
+            double ang = ((data[5] << 16) | (data[6] << 8) | data[7]) * MySlitherModel.PI2 / 16777215.0;
+            double wang = ((data[9] << 16) | (data[10] << 8) | data[11]) * MySlitherModel.PI2 / 16777215.0;
 
             double sp = ((data[12] << 8) | data[13]) / 1000.0;
             double fam = ((data[14] << 16) | (data[15] << 8) | data[16]) / 16777215.0;
@@ -607,30 +606,30 @@ final class MySlitherWebSocketClient extends WebSocketClient {
                     prey.sp = ((data[9] << 8) | data[10]) / 1000.0;
                     break;
                 case 12:
-                    prey.ang = ((data[9] << 16) | (data[10] << 8) | data[11]) * PI2 / 16777215;
+                    prey.ang = ((data[9] << 16) | (data[10] << 8) | data[11]) * MySlitherModel.PI2 / 16777215;
                     break;
                 case 13:
                     prey.dir = data[9] - 48;
-                    prey.wang = ((data[10] << 16) | (data[11] << 8) | data[12]) * PI2 / 16777215;
+                    prey.wang = ((data[10] << 16) | (data[11] << 8) | data[12]) * MySlitherModel.PI2 / 16777215;
                     break;
                 case 14:
-                    prey.ang = ((data[9] << 16) | (data[10] << 8) | data[11]) * PI2 / 16777215;
+                    prey.ang = ((data[9] << 16) | (data[10] << 8) | data[11]) * MySlitherModel.PI2 / 16777215;
                     prey.sp = ((data[12] << 8) | data[13]) / 1000.0;
                     break;
                 case 15:
                     prey.dir = data[9] - 48;
-                    prey.wang = ((data[10] << 16) | (data[11] << 8) | data[12]) * PI2 / 16777215;
+                    prey.wang = ((data[10] << 16) | (data[11] << 8) | data[12]) * MySlitherModel.PI2 / 16777215;
                     prey.sp = ((data[13] << 8) | data[14]) / 1000;
                     break;
                 case 16:
                     prey.dir = data[9] - 48;
-                    prey.ang = ((data[10] << 16) | (data[11] << 8) | data[12]) * PI2 / 16777215;
-                    prey.wang = ((data[13] << 16) | (data[14] << 8) | data[15]) * PI2 / 16777215;
+                    prey.ang = ((data[10] << 16) | (data[11] << 8) | data[12]) * MySlitherModel.PI2 / 16777215;
+                    prey.wang = ((data[13] << 16) | (data[14] << 8) | data[15]) * MySlitherModel.PI2 / 16777215;
                     break;
                 case 18:
                     prey.dir = data[9] - 48;
-                    prey.ang = ((data[10] << 16) | (data[11] << 8) | data[12]) * PI2 / 16777215;
-                    prey.wang = ((data[13] << 16) | (data[14] << 8) | data[15]) * PI2 / 16777215;
+                    prey.ang = ((data[10] << 16) | (data[11] << 8) | data[12]) * MySlitherModel.PI2 / 16777215;
+                    prey.wang = ((data[13] << 16) | (data[14] << 8) | data[15]) * MySlitherModel.PI2 / 16777215;
                     prey.sp = ((data[16] << 8) | data[17]) / 1000.0;
                     break;
             }
@@ -651,8 +650,8 @@ final class MySlitherWebSocketClient extends WebSocketClient {
             double y = ((data[9] << 16) | (data[10] << 8) | data[11]) / 5.0;
             double radius = data[12] / 5.0;
             int dir = data[13] - 48;
-            double wang = ((data[14] << 16) | (data[15] << 8) | data[16]) * PI2 / 16777215;
-            double ang = ((data[17] << 16) | (data[18] << 8) | data[19]) * PI2 / 16777215;
+            double wang = ((data[14] << 16) | (data[15] << 8) | data[16]) * MySlitherModel.PI2 / 16777215;
+            double ang = ((data[17] << 16) | (data[18] << 8) | data[19]) * MySlitherModel.PI2 / 16777215;
             double sp = ((data[20] << 8) | data[21]) / 1000.0;
             model.addPrey(id, x, y, radius, dir, wang, ang, sp);
         } else {
